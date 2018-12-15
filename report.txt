@@ -1,0 +1,52 @@
+global variables :
+    char * file_array : rw_file function fills this variable 
+                        while reading the file 
+
+    char * dectyprted_file_array:
+                        consumer function fills this variable 
+                        after dectypting the chunks
+
+    rsa_variables** buffer + buffer_pointer :
+                        using these variables we create a stack 
+                        for the buffer between producers and consumers
+
+    job_ended :         after each producer finishes its job , 
+                        using a lock , it increments this variable .
+                        its used for consumer know that if producers jobs
+                        are ended or not 
+                        
+
+structs : 
+    producer_variables :
+        tid :           id for each runnning producer 
+                        it's used for getting the starting index in
+                        array containing the file characters 
+
+        job_count :     number of chunks each producer should encrypt
+
+        start_index :   staring point of array containg the 
+                        characters of file for each thread
+        
+
+    rsa_variables       :
+
+        start_index :   staring point used for filling the 
+                        array of the result (in the consumer 
+                        function)
+        
+        message :       it contains the initial chunk to encrypt
+
+        temp_message :  a temporary variable used in rsa-encrpyt 
+                        function
+
+        en_messsage  :  same as above   
+
+        dectyprted   :  result of decrypted message 
+
+
+how its done :
+    first of all , we read the file using the rw_file function ,
+    and calculate its size . then we measure overall chunks we have 
+    to distibute between the producers threads . 
+    we then measure the number of chunks each producer should process 
+    
